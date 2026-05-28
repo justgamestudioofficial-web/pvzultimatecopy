@@ -62,6 +62,7 @@
         progressFlag: document.getElementById("zombieHeadFlag"),
         restart: document.getElementById("restartBtn")
     };
+    DOM.rotateOverlay = document.getElementById("rotateOverlay");
 
     // -----------------------------------
     // MOBILE / RESIZE HANDLERS
@@ -114,9 +115,22 @@
         }
     }
 
-    window.addEventListener('resize', fitGameToViewport);
-    window.addEventListener('orientationchange', fitGameToViewport);
-    window.addEventListener('load', function () { fitGameToViewport(); addMobileHandlers(); });
+    function checkOrientation() {
+        const overlay = DOM.rotateOverlay;
+        const isPortrait = window.innerHeight > window.innerWidth;
+        if (!overlay) return;
+        if (isPortrait) {
+            overlay.classList.remove('hidden');
+            document.body.classList.add('portrait-lock');
+        } else {
+            overlay.classList.add('hidden');
+            document.body.classList.remove('portrait-lock');
+        }
+    }
+
+    window.addEventListener('resize', () => { fitGameToViewport(); checkOrientation(); });
+    window.addEventListener('orientationchange', () => { fitGameToViewport(); checkOrientation(); });
+    window.addEventListener('load', function () { fitGameToViewport(); addMobileHandlers(); checkOrientation(); });
 
     // Plant Database
     const PlantDB = {

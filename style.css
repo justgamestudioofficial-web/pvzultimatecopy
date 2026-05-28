@@ -437,6 +437,46 @@ body {
     .picker-title { font-size: 22px; }
     .plant-picker-grid { grid-template-columns: repeat(2, minmax(72px, 1fr)); }
 }
+
+/* Rotate overlay + portrait lock */
+.rotate-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.85);
+    z-index: 9999;
+    color: #fff;
+    text-align: center;
+}
+.rotate-overlay.hidden { display: none; }
+.rotate-card { max-width: 420px; padding: 18px 22px; background: rgba(0,0,0,0.6); border-radius: 12px; border: 2px solid rgba(255,255,255,0.06); }
+.rotate-card h2 { font-size: 22px; margin-bottom: 6px; }
+.rotate-msg { margin-bottom: 8px; color: #fff9e6; }
+.rotate-hint { color: #ffd86b; font-weight: 700; }
+
+/* When portrait-lock is active, de-emphasize and disable gameplay UI */
+.portrait-lock .game-container,
+.portrait-lock .plant-panel-outer,
+.portrait-lock .top-bar,
+.portrait-lock .almanac-panel,
+.portrait-lock .plant-panel,
+.portrait-lock .menu-card {
+    opacity: 0.12 !important;
+    pointer-events: none !important;
+}
+
+/* Landscape-specific layout tweaks */
+@media (orientation: landscape) {
+    .game-container {
+        margin-top: 8px;
+        max-width: 1100px;
+        height: 520px;
+    }
+    .plant-panel-outer { padding: 6px 10px; }
+    .top-bar { height: 56px; }
+}
 .game-container::before {
     content: "";
     position: absolute;
