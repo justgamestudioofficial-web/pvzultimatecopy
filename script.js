@@ -75,10 +75,17 @@
         const padding = 24;
         const availableW = Math.max(320, window.innerWidth - padding);
         const availableH = Math.max(320, window.innerHeight - 120);
-        const scale = Math.min(availableW / baseW, availableH / baseH, 1);
+        // allow a little upscaling on wide (landscape) screens
+        const maxScale = (window.innerWidth > window.innerHeight) ? 1.15 : 1;
+        const scale = Math.min(availableW / baseW, availableH / baseH, maxScale);
         game.style.transform = `scale(${scale})`;
-        game.style.transformOrigin = 'top left';
+        // keep the scaled game centered horizontally
+        game.style.transformOrigin = 'top center';
         outer.style.height = (baseH * scale) + 'px';
+        // ensure outer centers properly
+        outer.style.display = 'flex';
+        outer.style.justifyContent = 'center';
+        outer.style.alignItems = 'flex-start';
     }
 
     function addMobileHandlers() {
