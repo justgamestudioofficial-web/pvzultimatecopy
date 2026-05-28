@@ -63,6 +63,54 @@
         restart: document.getElementById("restartBtn")
     };
 
+    // -----------------------------------
+    // MOBILE / RESIZE HANDLERS
+    // -----------------------------------
+    function fitGameToViewport() {
+        const game = DOM.gameContainer;
+        const outer = document.querySelector('.game-container-outer');
+        if (!game || !outer) return;
+        const baseW = 900;
+        const baseH = 500;
+        const padding = 24;
+        const availableW = Math.max(320, window.innerWidth - padding);
+        const availableH = Math.max(320, window.innerHeight - 120);
+        const scale = Math.min(availableW / baseW, availableH / baseH, 1);
+        game.style.transform = `scale(${scale})`;
+        game.style.transformOrigin = 'top left';
+        outer.style.height = (baseH * scale) + 'px';
+    }
+
+    function addMobileHandlers() {
+        // map touch to click for plant cards
+        document.querySelectorAll(".plant-card").forEach(card => {
+            card.addEventListener('touchstart', function touchToClick(e) {
+                e.preventDefault();
+                card.click();
+            }, { passive: false });
+        });
+
+        // map touch on cells to click planting/shoveling
+        document.querySelectorAll('.cell').forEach(cell => {
+            cell.addEventListener('touchstart', function (e) {
+                e.preventDefault();
+                handleCellClick(cell);
+            }, { passive: false });
+        });
+
+        // shovel touch mapping
+        if (DOM.shovel) {
+            DOM.shovel.addEventListener('touchstart', function (e) {
+                e.preventDefault();
+                DOM.shovel.click();
+            }, { passive: false });
+        }
+    }
+
+    window.addEventListener('resize', fitGameToViewport);
+    window.addEventListener('orientationchange', fitGameToViewport);
+    window.addEventListener('load', function () { fitGameToViewport(); addMobileHandlers(); });
+
     // Plant Database
     const PlantDB = {
         "peashooter": {
