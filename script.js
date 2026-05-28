@@ -15,7 +15,7 @@
     let isShovelActive = false;
     let gameOver = false;
     let levelStarted = false;
-    const INFINITE_SUN_TEST = true;
+    const INFINITE_SUN_TEST = false;
     const maxSelectedPlants = 4;
     const selectedLoadout = new Set();
     
