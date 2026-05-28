@@ -1,0 +1,1114 @@
+/* =================================== */
+/* GARDEN DEFENSE PROFESSIONAL UI V2 */
+/* Approx 600 Lines Required */
+/* =================================== */
+
+:root {
+    --primary-green: #388e3c;
+    --primary-brown: #5d4037;
+    --top-bar-bg: rgba(0, 0, 0, 0.7);
+    --plant-panel-bg: rgba(20, 20, 20, 0.6);
+    --plant-card-bg: #2e7d32;
+    --plant-card-hover: rgba(255, 255, 255, 0.1);
+    --sun-display-color: gold;
+    --progress-bg: #444;
+    --cell-color: rgba(255, 255, 255, 0.05);
+    --plant-cooldown-color: rgba(0, 0, 0, 0.6);
+    --shake-intensity: 6px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Trebuchet MS", sans-serif;
+    user-select: none;
+}
+
+body {
+    background: radial-gradient(circle, #222, #000);
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* ----------------------------------- */
+/* MAIN MENU */
+/* ----------------------------------- */
+.main-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(120, 205, 95, 0.2), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(42, 120, 45, 0.25), transparent 45%),
+        rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(3px);
+}
+.main-menu.hidden {
+    display: none !important;
+}
+.menu-card {
+    width: min(560px, 92vw);
+    padding: 36px 28px;
+    border-radius: 16px;
+    border: 3px solid rgba(214, 177, 110, 0.85);
+    background: linear-gradient(180deg, rgba(51, 86, 38, 0.96), rgba(34, 57, 26, 0.96));
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
+    text-align: center;
+    color: #fff4d8;
+}
+.menu-title {
+    font-size: 42px;
+    line-height: 1.08;
+    text-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+}
+.menu-subtitle {
+    margin-top: 10px;
+    font-size: 18px;
+    opacity: 0.95;
+}
+.menu-start-btn {
+    margin-top: 26px;
+    min-width: 230px;
+    padding: 14px 28px;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #ffe174, #e9a81f);
+    color: #2a1800;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    box-shadow: 0 0 16px rgba(255, 206, 92, 0.45);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.menu-start-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 0 26px rgba(255, 225, 105, 0.7);
+}
+.menu-credit {
+    margin-top: 18px;
+    font-size: 15px;
+    color: #ffe6b5;
+    opacity: 0.95;
+}
+.plant-picker-card {
+    width: min(720px, 95vw);
+}
+.picker-title {
+    font-size: 34px;
+    color: #fff6d8;
+}
+.picker-subtitle {
+    margin-top: 10px;
+    margin-bottom: 18px;
+    font-size: 16px;
+    color: #f2e4b8;
+}
+.plant-picker-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(85px, 1fr));
+    gap: 12px;
+    justify-items: center;
+    margin-bottom: 18px;
+}
+.picker-plant-card {
+    width: 85px;
+    height: 100px;
+    background: rgba(22, 56, 20, 0.95);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+.picker-plant-card img {
+    width: 58px;
+}
+.picker-plant-card .cost {
+    font-size: 14px;
+}
+.picker-plant-card:hover {
+    transform: translateY(-4px) scale(1.03);
+}
+.picker-selected {
+    border-color: #ffe16a !important;
+    box-shadow: 0 0 16px rgba(255, 220, 80, 0.8) !important;
+}
+.picker-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+.picker-count {
+    font-weight: 700;
+    color: #ffe69d;
+}
+.menu-start-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* ----------------------------------- */
+/* TOP GAME UI (Approx 100 Lines) */
+/* ----------------------------------- */
+.top-bar {
+    width: 100%;
+    height: 60px;
+    background: var(--top-bar-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    color: white;
+    font-size: 20px;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    border-bottom: 2px solid #444;
+}
+
+.sun-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sun-display img {
+    width: 35px;
+    animation: rotateSun 8s linear infinite;
+}
+
+#sunCount {
+    color: var(--sun-display-color);
+    font-weight: bold;
+    font-size: 24px;
+    text-shadow: 0 0 10px gold;
+}
+
+.wave-display {
+    text-shadow: 0 0 10px white;
+}
+.almanac-btn {
+    border: 2px solid #9fd27b;
+    background: linear-gradient(180deg, #4f7b2f, #2f4f1f);
+    color: #eefad8;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.almanac-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 14px rgba(169, 223, 111, 0.5);
+}
+
+/* ----------------------------------- */
+/* PLANT SELECTION PANEL (Approx 120 Lines) */
+/* ----------------------------------- */
+.plant-panel-outer {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    background: var(--plant-panel-bg);
+    padding: 10px;
+    border-bottom: 2px solid #333;
+}
+
+.plant-panel {
+    display: flex;
+    gap: 12px;
+}
+
+.plant-card {
+    position: relative;
+    width: 65px;
+    height: 85px;
+    background: var(--plant-card-bg);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid transparent;
+}
+
+.plant-card img {
+    width: 50px;
+    margin-top: -10px;
+}
+
+.plant-card .cost {
+    position: absolute;
+    bottom: 2px;
+    width: 100%;
+    font-size: 13px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.plant-card:not(.cooldown-on):hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 0 20px gold;
+    background-color: var(--plant-card-hover);
+}
+
+/* Plant Card States */
+.selected-card {
+    border: 2px solid white !important;
+    box-shadow: 0 0 20px white !important;
+}
+
+.cooldown-on {
+    cursor: not-allowed !important;
+    opacity: 0.7;
+}
+.plant-card.insufficient-sun {
+    background: linear-gradient(180deg, #7a2121, #4b1212);
+    border-color: rgba(255, 120, 120, 0.8);
+    box-shadow: inset 0 0 0 1px rgba(255, 178, 178, 0.35);
+}
+.plant-card.insufficient-sun .cost {
+    color: #ffd7d7;
+    text-shadow: 0 0 6px rgba(255, 90, 90, 0.9);
+}
+.locked-card {
+    opacity: 0.3;
+    filter: grayscale(100%);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.cooldown {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 0%;
+    background: var(--plant-cooldown-color);
+    border-radius: 8px;
+    transition: height 0.1s linear;
+}
+
+/* ----------------------------------- */
+/* SHOVEL TOOL (Approx 80 Lines) */
+/* ----------------------------------- */
+.shovel-tool {
+    width: 70px;
+    height: 70px;
+    background: #444;
+    border: 2px solid #555;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.shovel-tool img {
+    width: 50px;
+}
+
+.shovel-tool:hover {
+    background: #555;
+    box-shadow: 0 0 15px gold;
+}
+
+.active-shovel {
+    background: #666 !important;
+    border-color: gold !important;
+    box-shadow: 0 0 20px gold !important;
+}
+
+/* ----------------------------------- */
+/* PROGRESS BAR UI (Approx 100 Lines) */
+/* ----------------------------------- */
+.progress-display {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.progress-bar-container {
+    position: relative;
+    width: 250px;
+    height: 12px;
+    background: var(--progress-bg);
+    border-radius: 10px;
+    border: 2px solid #555;
+    overflow: visible; /* Need overflow visible for zombie head flag */
+}
+
+.progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0%;
+    background: limegreen;
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+
+.zombie-flag {
+    position: absolute;
+    left: 0%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    cursor: pointer;
+    z-index: 5;
+    transition: left 0.4s ease;
+}
+
+.zombie-flag:hover {
+    animation: bounceZFlag 0.3s ease;
+}
+
+/* ----------------------------------- */
+/* MAIN GAME CONTAINER (Approx 100 Lines) */
+/* ----------------------------------- */
+.game-container-outer {
+    position: relative;
+    width: 824px;
+    margin: 0 auto;
+    padding-left: 0;
+    display: flex;
+    justify-content: flex-start;
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.game-container {
+    position: relative;
+    width: 900px; /* Base width based on screenshot size */
+    height: 500px; /* Base height based on screenshot size */
+    background-color: #d8d0c6;
+    background-image:
+        url("assets/houseside.png"),
+        url("assets/grass.png");
+    background-size:
+        120px 100%,
+        654px 500px;
+    background-position:
+        left top,
+        120px 0;
+    background-repeat: no-repeat, no-repeat;
+    border: 6px solid var(--primary-brown);
+    border-radius: 20px;
+    overflow: visible; /* For explosion visuals in script */
+    transition: transform 0.34s cubic-bezier(0.2, 0.75, 0.15, 1), filter 0.34s ease-in-out;
+    will-change: transform, filter;
+}
+.game-container::before {
+    content: "";
+    position: absolute;
+    left: 120px;
+    top: 0;
+    width: 654px;
+    height: 500px;
+    border-radius: 12px;
+    box-shadow: inset 0 0 0 2px rgba(34, 82, 28, 0.35);
+    background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(0,0,0,0.04));
+    z-index: 1;
+    pointer-events: none;
+}
+.game-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 30;
+    background:
+        repeating-linear-gradient(
+            -12deg,
+            rgba(255, 255, 255, 0) 0 14px,
+            rgba(255, 255, 255, 0.2) 14px 17px,
+            rgba(255, 255, 255, 0) 17px 34px
+        ),
+        linear-gradient(
+            100deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.28) 48%,
+            rgba(255, 255, 255, 0.06) 66%,
+            rgba(255, 255, 255, 0) 100%
+        );
+    mix-blend-mode: screen;
+    transform: translateX(-120%);
+}
+.game-container.camera-pan-right {
+    transform: translateX(-86px);
+}
+.game-container.camera-pan-motion {
+    filter: saturate(1.1) brightness(1.05) blur(1.6px);
+}
+.game-container.wind-burst::after {
+    animation: windSweep 0.5s ease-out;
+}
+.roadside-layer {
+    position: absolute;
+    left: 836px;
+    top: 0;
+    width: 76px;
+    height: 100%;
+    background: url("assets/roadside.png") center center / cover no-repeat;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.12s linear;
+}
+.game-container.show-roadside-preview .roadside-layer {
+    opacity: 1;
+}
+.sky-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+.cloud {
+    position: absolute;
+    height: 34px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow:
+        20px 8px 0 8px rgba(255, 255, 255, 0.65),
+        45px 2px 0 6px rgba(255, 255, 255, 0.62),
+        68px 10px 0 10px rgba(255, 255, 255, 0.55);
+    filter: blur(0.2px);
+}
+.cloud-a {
+    width: 88px;
+    top: 8px;
+    left: -120px;
+    animation: cloudDriftA 40s linear infinite;
+}
+.cloud-b {
+    width: 70px;
+    top: 44px;
+    left: -250px;
+    opacity: 0.85;
+    animation: cloudDriftB 52s linear infinite;
+}
+.cloud-c {
+    width: 96px;
+    top: 18px;
+    left: -420px;
+    opacity: 0.8;
+    animation: cloudDriftA 65s linear infinite;
+    animation-delay: -16s;
+}
+.cloud-d {
+    width: 78px;
+    top: 310px;
+    left: -340px;
+    opacity: 0.58;
+    animation: cloudDriftB 62s linear infinite;
+    animation-delay: -23s;
+}
+.cloud-e {
+    width: 86px;
+    top: 132px;
+    left: -540px;
+    opacity: 0.66;
+    animation: cloudDriftA 72s linear infinite;
+    animation-delay: -11s;
+}
+.cloud-f {
+    width: 92px;
+    top: 230px;
+    left: -680px;
+    opacity: 0.54;
+    animation: cloudDriftB 78s linear infinite;
+    animation-delay: -34s;
+}
+.cloud-g {
+    width: 64px;
+    top: 405px;
+    left: -260px;
+    opacity: 0.45;
+    animation: cloudDriftA 85s linear infinite;
+    animation-delay: -47s;
+}
+.cloud-h {
+    width: 74px;
+    top: 355px;
+    left: -820px;
+    opacity: 0.48;
+    animation: cloudDriftB 95s linear infinite;
+    animation-delay: -22s;
+}
+.fence-line {
+    position: absolute;
+    left: 120px;
+    top: -2px;
+    width: 654px;
+    height: 72px;
+    z-index: 6;
+    background: url("assets/fence.png") center top / cover no-repeat;
+    pointer-events: none;
+}
+.fence-post {
+    display: none;
+}
+.fence-post::before {
+    content: none;
+}
+
+.game-board {
+    position: absolute;
+    left: 120px;
+    top: 0;
+    width: 654px;
+    height: 500px;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    z-index: 8;
+}
+
+.cell {
+    border: 1px solid var(--cell-color);
+    cursor: pointer;
+    position: relative;
+}
+
+.cell-hover-plant {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.cell-hover-shovel {
+    background: rgba(255, 255, 0, 0.1) !important;
+}
+.hover-plant-preview {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    opacity: 0.55;
+    filter: brightness(1.15) saturate(1.08);
+    pointer-events: none;
+    z-index: 9;
+    animation: hoverPlantPulse 0.85s ease-in-out infinite alternate;
+}
+.cherry-range-preview {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border: 2px dashed rgba(255, 92, 92, 0.95);
+    background: radial-gradient(circle, rgba(255, 74, 74, 0.22) 0%, rgba(255, 74, 74, 0.08) 45%, rgba(255, 74, 74, 0.02) 72%, rgba(255, 74, 74, 0) 100%);
+    box-shadow: 0 0 14px rgba(255, 70, 70, 0.45);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 8;
+    animation: cherryRangePulse 0.75s ease-in-out infinite alternate;
+}
+.bonkchoi-range-preview {
+    position: absolute;
+    width: 210px;
+    height: 86px;
+    border-radius: 999px;
+    border: 2px dashed rgba(255, 178, 64, 0.95);
+    background: linear-gradient(90deg, rgba(255, 162, 0, 0.12), rgba(255, 162, 0, 0.32) 70%, rgba(255, 162, 0, 0.08));
+    box-shadow: 0 0 12px rgba(255, 168, 77, 0.45);
+    transform: translate(-25%, -50%);
+    pointer-events: none;
+    z-index: 8;
+    animation: cherryRangePulse 0.75s ease-in-out infinite alternate;
+}
+
+/* ----------------------------------- */
+/* LAWN MOWERS (Approx 80 Lines) */
+/* ----------------------------------- */
+.mowers-lane {
+    position: absolute;
+    top: 0;
+    left: 28px; /* Left sidewalk zone */
+    width: 80px;
+    height: 500px;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+}
+
+.mower {
+    position: absolute;
+    width: 70px;
+    transform: translateY(15px);
+    pointer-events: none;
+    transition: top 0.2s, left 0.1s linear;
+}
+
+/* Top positions based on cell size */
+.mower[data-lane="0"] { top: -2px; }
+.mower[data-lane="1"] { top: 98px; }
+.mower[data-lane="2"] { top: 198px; }
+.mower[data-lane="3"] { top: 298px; }
+.mower[data-lane="4"] { top: 398px; }
+
+
+/* ----------------------------------- */
+/* PLANTS & ZOMBIES (Approx 100 Lines) */
+/* ----------------------------------- */
+.plant {
+    width: 80px;
+    animation: plantIdle 2s ease-in-out infinite;
+}
+.sunflower-glow {
+    filter: drop-shadow(0 0 8px rgba(255, 235, 59, 0.95)) brightness(1.18);
+    animation: sunflowerCharge 0.35s ease-in-out infinite alternate;
+}
+.sunflower-ready {
+    filter: drop-shadow(0 0 14px rgba(255, 245, 105, 1)) brightness(1.3);
+}
+
+.zombie {
+    position: absolute;
+    width: 80px;
+    transition: filter 0.1s;
+    animation: zombieWalk 0.6s infinite alternate;
+}
+
+/* Projectiles */
+.pea {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.pea-proj {
+    background: limegreen;
+    box-shadow: 0 0 10px green;
+}
+
+.snow-pea-proj {
+    background: #00d2ff;
+    box-shadow: 0 0 10px #00d2ff;
+}
+.snowpea-bullet {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(102, 217, 255, 0.95));
+}
+.pea-splat-particle {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #9cff73 0%, #43b733 80%);
+    box-shadow: 0 0 5px rgba(67, 183, 51, 0.8);
+    z-index: 12;
+    pointer-events: none;
+    animation: peaSplatFade 0.38s ease-out forwards;
+}
+.dirt-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #b17a45 0%, #6f4723 78%);
+    box-shadow: 0 0 3px rgba(53, 30, 13, 0.45);
+    z-index: 14;
+    pointer-events: none;
+    animation: dirtBurst 0.45s ease-out forwards;
+}
+.dirt-puff {
+    position: absolute;
+    width: 40px;
+    height: 24px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(130, 92, 58, 0.42), rgba(130, 92, 58, 0));
+    z-index: 13;
+    pointer-events: none;
+    animation: dirtPuffFade 0.36s ease-out forwards;
+}
+
+/* Sun */
+.sun {
+    position: absolute;
+    width: 50px;
+    cursor: pointer;
+    z-index: 40;
+    pointer-events: auto;
+    animation: floatSun 4s ease-in-out infinite;
+}
+
+/* ----------------------------------- */
+/* GAME STATES / WARNINGS (Approx 120 Lines) */
+/* ----------------------------------- */
+.wave-warning {
+    position: absolute;
+    top: 40%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 32px;
+    color: red;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 2px 2px black;
+    animation: flashWarning 0.5s infinite alternate;
+    z-index: 20;
+}
+.road-preview-zombie {
+    position: absolute;
+    width: 82px;
+    opacity: 0.96;
+    pointer-events: none;
+    z-index: 18;
+    filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.62));
+    animation: zombiePreviewMarch 0.6s ease-in-out infinite alternate;
+}
+.zombie-body-fall,
+.zombie-head-fall {
+    position: absolute;
+    pointer-events: none;
+    z-index: 15;
+}
+.zombie-body-fall {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    animation: zombieBodyDrop 1.05s ease-out forwards;
+}
+.zombie-head-fall {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    animation: zombieHeadDrop 1.05s ease-out forwards;
+}
+
+/* Explosion effect used in script */
+.cell-explode {
+    background: radial-gradient(circle, orange, red, transparent);
+    animation: boomVisual 1s forwards;
+}
+.explode-effect {
+    position: absolute;
+    width: 230px;
+    height: 230px;
+    object-fit: contain;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 16;
+    animation: explodeEffectPop 0.5s ease-out forwards;
+}
+
+/* States on cells in script */
+.cone-dmg { filter: hue-rotate(-120deg); }
+.bucket-dmg { filter: hue-rotate(-60deg); }
+.zombie-slow { filter: none; }
+.slow-zombie { filter: saturate(0.82) brightness(0.92); }
+.zombie-hit-red {
+    filter: hue-rotate(-35deg) saturate(3) brightness(1.15);
+}
+.zombie-hit-blue {
+    filter: hue-rotate(160deg) saturate(3) brightness(1.2);
+}
+.zombie-ash {
+    filter: grayscale(100%) brightness(0.45) contrast(1.25);
+    animation: ashFall 0.9s ease-out forwards !important;
+}
+.screen-flash {
+    position: fixed;
+    inset: 0;
+    background: #ffffff;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 300;
+}
+.screen-flash.flash-active {
+    animation: screenFlashPulse 0.2s ease-out;
+}
+
+/* ----------------------------------- */
+/* OVERLAY (Approx 100 Lines) */
+/* ----------------------------------- */
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-size: 40px;
+    z-index: 1200;
+    padding: 24px;
+    backdrop-filter: blur(4px);
+}
+
+.overlay h1 {
+    text-align: center;
+    line-height: 1.2;
+    text-shadow: 2px 2px black;
+    max-width: 900px;
+}
+.overlay-subtext {
+    margin-top: 8px;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+    opacity: 1;
+    text-align: center;
+    max-width: 760px;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.overlay button {
+    margin-top: 30px;
+    padding: 10px 30px;
+    font-size: 20px;
+    border: none;
+    background: gold;
+    color: black;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-weight: bold;
+    min-width: 240px;
+}
+
+.overlay button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px gold;
+}
+.overlay.defeat-mode {
+    background:
+        radial-gradient(circle at 20% 20%, rgba(210, 0, 0, 0.25), transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(120, 0, 0, 0.3), transparent 40%),
+        rgba(10, 0, 0, 0.9);
+}
+.overlay.defeat-mode h1 {
+    color: #ffb0b0;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.55), 2px 2px #000;
+}
+.overlay.defeat-mode .overlay-subtext {
+    color: #ffdada;
+}
+.overlay.defeat-mode button {
+    background: linear-gradient(180deg, #ff4d4d, #b30000);
+    color: #fff;
+    box-shadow: 0 0 18px rgba(255, 60, 60, 0.45);
+}
+.overlay.defeat-mode button:hover {
+    box-shadow: 0 0 24px rgba(255, 80, 80, 0.75);
+}
+
+.almanac-panel {
+    position: fixed;
+    top: 72px;
+    right: 16px;
+    width: min(420px, calc(100vw - 24px));
+    max-height: calc(100vh - 96px);
+    overflow: auto;
+    z-index: 1300;
+    border: 2px solid #6e4f2b;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(44, 66, 33, 0.98), rgba(24, 38, 20, 0.98));
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.5);
+    color: #f1f6e0;
+}
+.almanac-header {
+    position: sticky;
+    top: 0;
+    padding: 12px 14px;
+    background: rgba(17, 31, 13, 0.95);
+    border-bottom: 1px solid rgba(150, 197, 106, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.almanac-header h2 {
+    font-size: 22px;
+    margin: 0;
+}
+.almanac-close {
+    border: 1px solid #a9ca87;
+    background: #385829;
+    color: #f6ffe7;
+    border-radius: 8px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-weight: 700;
+}
+.almanac-list {
+    padding: 10px;
+    display: grid;
+    gap: 10px;
+}
+.almanac-item {
+    display: grid;
+    grid-template-columns: 68px 1fr;
+    gap: 10px;
+    padding: 8px;
+    border: 1px solid rgba(157, 207, 111, 0.25);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+}
+.almanac-zombie-img {
+    width: 62px;
+    height: 62px;
+    object-fit: contain;
+}
+.almanac-item-text h3 {
+    font-size: 15px;
+    margin: 0 0 4px;
+}
+.almanac-item-text p {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.95;
+}
+.almanac-stats {
+    margin-top: 6px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: #daf1bd;
+}
+
+.hidden { display: none !important; }
+
+@media (max-width: 900px) {
+    body {
+        overflow: auto;
+    }
+    .top-bar {
+        height: auto;
+        padding: 10px;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        font-size: 16px;
+    }
+    .progress-bar-container {
+        width: 180px;
+    }
+    .plant-panel-outer {
+        gap: 10px;
+        padding: 8px;
+        overflow-x: auto;
+    }
+    .plant-panel {
+        gap: 8px;
+    }
+    .plant-card {
+        width: 56px;
+        height: 76px;
+    }
+    .plant-card img {
+        width: 42px;
+    }
+    .game-container-outer {
+        width: auto;
+        padding: 10px;
+        justify-content: flex-start;
+        overflow-x: auto;
+    }
+    .game-container {
+        transform-origin: top left;
+        transform: scale(0.86);
+        margin-bottom: -70px;
+    }
+    .game-container.camera-pan-right {
+        transform: scale(0.86) translateX(-86px);
+    }
+    .overlay h1 {
+        font-size: 36px;
+    }
+    .almanac-panel {
+        left: 12px;
+        right: 12px;
+        width: auto;
+        top: 106px;
+        max-height: calc(100vh - 120px);
+    }
+}
+
+@media (max-width: 560px) {
+    .plant-picker-grid {
+        grid-template-columns: repeat(2, minmax(85px, 1fr));
+    }
+    .game-container {
+        transform: scale(0.7);
+        margin-bottom: -150px;
+    }
+    .game-container.camera-pan-right {
+        transform: scale(0.7) translateX(-86px);
+    }
+    .almanac-btn {
+        width: 100%;
+    }
+    .overlay h1 {
+        font-size: 30px;
+    }
+    .overlay button {
+        min-width: 200px;
+    }
+}
+
+/* ----------------------------------- */
+/* KEYFRAMES (Approx 150 Lines) */
+/* ----------------------------------- */
+@keyframes rotateSun { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes plantIdle { 0%, 100% { transform: translateY(0px) scaleX(1); } 50% { transform: translateY(-3px) scaleX(0.98); } }
+@keyframes sunflowerCharge { from { transform: scale(1); } to { transform: scale(1.03); } }
+@keyframes cloudDriftA { from { transform: translateX(-120px); } to { transform: translateX(1150px); } }
+@keyframes cloudDriftB { from { transform: translateX(-180px); } to { transform: translateX(1200px); } }
+@keyframes zombieWalk { from { transform: translateX(0); } to { transform: translateX(-5px); } }
+@keyframes flashWarning { from { opacity: 1; } to { opacity: 0.4; } }
+@keyframes floatSun { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-12px) rotate(5deg); } }
+@keyframes bounceZFlag { 0%, 100% { transform: translate(-50%, -50%); } 50% { transform: translate(-50%, -80%); } }
+@keyframes boomVisual { 0% { transform: scale(0.1); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
+@keyframes peaSplatFade { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(var(--dx), var(--dy)) scale(0.3); opacity: 0; } }
+@keyframes dirtBurst { 0% { transform: translate(0, 0) scale(1); opacity: 0.95; } 100% { transform: translate(var(--dx), var(--dy)) scale(0.45); opacity: 0; } }
+@keyframes dirtPuffFade { 0% { transform: scale(0.5); opacity: 0.6; } 100% { transform: scale(1.25); opacity: 0; } }
+@keyframes hoverPlantPulse { 0% { transform: translateY(0); } 100% { transform: translateY(-3px); } }
+@keyframes cherryRangePulse { 0% { opacity: 0.75; } 100% { opacity: 1; } }
+@keyframes explodeEffectPop { 0% { transform: translate(-50%, -50%) scale(0.58); opacity: 0.9; } 100% { transform: translate(-50%, -50%) scale(1.26); opacity: 0; } }
+@keyframes windSweep {
+    0% { opacity: 0; transform: translateX(-120%) skewX(-6deg); }
+    18% { opacity: 0.58; }
+    100% { opacity: 0; transform: translateX(120%) skewX(-6deg); }
+}
+@keyframes zombieBodyDrop {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(28px); opacity: 0; }
+}
+@keyframes zombieHeadDrop {
+    0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+    100% { transform: translate(var(--head-roll-x, -92px), var(--head-roll-y, 54px)) rotate(var(--head-rot, -680deg)); opacity: 0; }
+}
+@keyframes ashFall { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0.75); } }
+@keyframes screenFlashPulse { 0% { opacity: 0; } 30% { opacity: 0.28; } 100% { opacity: 0; } }
+@keyframes zombiePreviewMarch { 0% { transform: translateX(0); } 100% { transform: translateX(-7px); } }
+
+/* Advanced animations */
+.zombie-eating { animation: eatingAnim 0.3s infinite alternate; }
+@keyframes eatingAnim { from { transform: scale(1); } to { transform: scale(1.05); } }
+
+.zombie-death { animation: deathAnim 0.8s forwards; }
+@keyframes deathAnim { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0.1); } }
+
+.board-shake { animation: screenShake 0.4s; }
+@keyframes screenShake { 0%, 100% { transform: translate(0,0); } 20% { transform: translate(var(--shake-intensity), -var(--shake-intensity)); } 40% { transform: translate(-var(--shake-intensity), var(--shake-intensity)); } 60% { transform: translate(var(--shake-intensity), var(--shake-intensity)); } 80% { transform: translate(-var(--shake-intensity), -var(--shake-intensity)); } }
+
+.win-dance { animation: winDanceAnim 1s infinite alternate; }
+@keyframes winDanceAnim { 0% { transform: scale(1) rotate(0); } 100% { transform: scale(1.1) rotate(5deg); filter: sepia(100%); } }

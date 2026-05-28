@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garden Defense Professional</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="mainMenu" class="main-menu">
+        <div class="menu-card">
+            <h1 class="menu-title">Garden Defense Professional</h1>
+            <p class="menu-subtitle">Protect your lawn. Survive every wave.</p>
+            <button id="startGameBtn" class="menu-start-btn">START GAME</button>
+            <p class="menu-credit">Created by <strong>dev_karltastic</strong></p>
+        </div>
+    </div>
+    <div id="plantPickerMenu" class="main-menu hidden">
+        <div class="menu-card plant-picker-card">
+            <h2 class="picker-title">Choose Your Plants</h2>
+            <p class="picker-subtitle">Select up to 4 plants before the wave starts.</p>
+            <div id="plantPickerGrid" class="plant-picker-grid"></div>
+            <div class="picker-actions">
+                <span id="pickerCount" class="picker-count">0 / 4 selected</span>
+                <button id="startLevelBtn" class="menu-start-btn" disabled>START LEVEL</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="top-bar">
+
+        <div class="sun-display">
+            <img src="assets/sun_icon.png">
+            <span id="sunCount">100</span>
+        </div>
+
+        <div class="progress-display">
+            Level Progress
+            <div class="progress-bar-container">
+                <div id="levelProgress" class="progress-fill"></div>
+                <img id="zombieHeadFlag" src="assets/zombie1.png" class="zombie-flag">
+            </div>
+        </div>
+
+        <div class="wave-display">
+            Wave <span id="waveCount">1</span>
+        </div>
+        <button id="almanacBtn" class="almanac-btn">Zombie Almanac</button>
+
+    </div>
+
+
+    <div class="plant-panel-outer">
+        
+        <div class="plant-panel">
+
+            <div class="plant-card" data-plant="peashooter" data-cost="100">
+                <img src="assets/peashooter1.png">
+                <div class="cost">100</div>
+                <div class="cooldown"></div>
+            </div>
+
+            <div class="plant-card" data-plant="repeater" data-cost="200">
+                <img src="assets/repeater1.png">
+                <div class="cost">200</div>
+                <div class="cooldown"></div>
+            </div>
+
+            <div class="plant-card" data-plant="bonkchoi" data-cost="125">
+                <img src="assets/bonkchoiidle1.png">
+                <div class="cost">125</div>
+                <div class="cooldown"></div>
+            </div>
+
+            <div class="plant-card" data-plant="sunflower" data-cost="50">
+                <img src="assets/sunflower.png">
+                <div class="cost">50</div>
+                <div class="cooldown"></div>
+            </div>
+
+            <div class="plant-card" data-plant="wallnut" data-cost="50">
+                <img src="assets/wallnut.png"> <div class="cost">50</div>
+                <div class="cooldown"></div>
+            </div>
+
+            <div class="plant-card" data-plant="snowpea" data-cost="175">
+                <img src="assets/snowpea1.png">
+                <div class="cost">175</div>
+                <div class="cooldown"></div>
+            </div>
+
+            <div class="plant-card" data-plant="cherry_bomb" data-cost="150">
+                <img src="assets/cherry_bomb.png">
+                <div class="cost">150</div>
+                <div class="cooldown"></div>
+            </div>
+
+            <div class="plant-card" data-plant="potato_mine" data-cost="25">
+                <img src="assets/potato_mine_unarmed.png">
+                <div class="cost">25</div>
+                <div class="cooldown"></div>
+            </div>
+
+        </div>
+
+        <div id="shovelTool" class="shovel-tool">
+            <img src="assets/shovel.png">
+        </div>
+
+    </div>
+
+
+    <div id="gameContainerOuter" class="game-container-outer">
+        
+        <div class="game-container">
+            <div class="sky-layer" aria-hidden="true">
+                <div class="cloud cloud-a"></div>
+                <div class="cloud cloud-b"></div>
+                <div class="cloud cloud-c"></div>
+                <div class="cloud cloud-d"></div>
+                <div class="cloud cloud-e"></div>
+                <div class="cloud cloud-f"></div>
+                <div class="cloud cloud-g"></div>
+                <div class="cloud cloud-h"></div>
+            </div>
+            <div class="fence-line" aria-hidden="true">
+                <span class="fence-post"></span>
+                <span class="fence-post"></span>
+                <span class="fence-post"></span>
+                <span class="fence-post"></span>
+                <span class="fence-post"></span>
+                <span class="fence-post"></span>
+                <span class="fence-post"></span>
+                <span class="fence-post"></span>
+                <span class="fence-post"></span>
+                <span class="fence-post"></span>
+                <span class="fence-post"></span>
+                <span class="fence-post"></span>
+                <span class="fence-post"></span>
+                <span class="fence-post"></span>
+            </div>
+
+            <div id="waveWarning" class="wave-warning hidden">
+                ⚠ A HUGE WAVE OF ZOMBIES IS APPROACHING! ⚠
+            </div>
+
+            <div class="roadside-layer" aria-hidden="true">
+            </div>
+
+            <div id="gameBoard" class="game-board">
+                <div class="cell" data-row="0" data-col="0"></div>
+                <div class="cell" data-row="0" data-col="1"></div>
+                <div class="cell" data-row="0" data-col="2"></div>
+                <div class="cell" data-row="0" data-col="3"></div>
+                <div class="cell" data-row="0" data-col="4"></div>
+                <div class="cell" data-row="0" data-col="5"></div>
+                <div class="cell" data-row="0" data-col="6"></div>
+                <div class="cell" data-row="0" data-col="7"></div>
+                <div class="cell" data-row="0" data-col="8"></div>
+
+                <div class="cell" data-row="1" data-col="0"></div>
+                <div class="cell" data-row="1" data-col="1"></div>
+                <div class="cell" data-row="1" data-col="2"></div>
+                <div class="cell" data-row="1" data-col="3"></div>
+                <div class="cell" data-row="1" data-col="4"></div>
+                <div class="cell" data-row="1" data-col="5"></div>
+                <div class="cell" data-row="1" data-col="6"></div>
+                <div class="cell" data-row="1" data-col="7"></div>
+                <div class="cell" data-row="1" data-col="8"></div>
+
+                <div class="cell" data-row="2" data-col="0"></div>
+                <div class="cell" data-row="2" data-col="1"></div>
+                <div class="cell" data-row="2" data-col="2"></div>
+                <div class="cell" data-row="2" data-col="3"></div>
+                <div class="cell" data-row="2" data-col="4"></div>
+                <div class="cell" data-row="2" data-col="5"></div>
+                <div class="cell" data-row="2" data-col="6"></div>
+                <div class="cell" data-row="2" data-col="7"></div>
+                <div class="cell" data-row="2" data-col="8"></div>
+
+                <div class="cell" data-row="3" data-col="0"></div>
+                <div class="cell" data-row="3" data-col="1"></div>
+                <div class="cell" data-row="3" data-col="2"></div>
+                <div class="cell" data-row="3" data-col="3"></div>
+                <div class="cell" data-row="3" data-col="4"></div>
+                <div class="cell" data-row="3" data-col="5"></div>
+                <div class="cell" data-row="3" data-col="6"></div>
+                <div class="cell" data-row="3" data-col="7"></div>
+                <div class="cell" data-row="3" data-col="8"></div>
+
+                <div class="cell" data-row="4" data-col="0"></div>
+                <div class="cell" data-row="4" data-col="1"></div>
+                <div class="cell" data-row="4" data-col="2"></div>
+                <div class="cell" data-row="4" data-col="3"></div>
+                <div class="cell" data-row="4" data-col="4"></div>
+                <div class="cell" data-row="4" data-col="5"></div>
+                <div class="cell" data-row="4" data-col="6"></div>
+                <div class="cell" data-row="4" data-col="7"></div>
+                <div class="cell" data-row="4" data-col="8"></div>
+
+            </div>
+
+            <div class="mowers-lane">
+                <img src="assets/lawnmower.png" class="mower" data-lane="0">
+                <img src="assets/lawnmower.png" class="mower" data-lane="1">
+                <img src="assets/lawnmower.png" class="mower" data-lane="2">
+                <img src="assets/lawnmower.png" class="mower" data-lane="3">
+                <img src="assets/lawnmower.png" class="mower" data-lane="4">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div id="gameOverlay" class="overlay hidden">
+        <h1 id="overlayText"></h1>
+        <p id="overlaySubtext" class="overlay-subtext"></p>
+        <button id="restartBtn">RESTART LEVEL</button>
+    </div>
+    <aside id="almanacPanel" class="almanac-panel hidden" aria-hidden="true">
+        <div class="almanac-header">
+            <h2>Zombie Almanac</h2>
+            <button id="almanacCloseBtn" class="almanac-close">X</button>
+        </div>
+        <div id="almanacList" class="almanac-list"></div>
+    </aside>
+
+
+    <audio id="bgm" src="assets/bgm.mp3" loop preload="auto"></audio>
+    <audio id="shootSound" src="assets/shoot.mp3" preload="auto"></audio>
+    <audio id="sunCollectSound" src="assets/suncollect.mp3" preload="auto"></audio>
+    <audio id="zombieDieSound" src="assets/zombie_die.mp3" preload="auto"></audio>
+    <audio id="victorySound" src="assets/victorysound.mp3" preload="auto"></audio>
+    <audio id="defeatSound" src="assets/defeat.mp3" preload="auto"></audio>
+    <audio id="warningSound" src="assets/zombiesarecoming.mp3" preload="auto"></audio>
+    <audio id="biteSound" src="assets/bite.mp3" preload="auto"></audio>
+    <audio id="splatSound" src="assets/splat.mp3" preload="auto"></audio>
+    <audio id="mowerSound" src="assets/lawnmower.mp3" preload="auto"></audio>
+    <audio id="clinkSound" src="assets/clink.mp3" preload="auto"></audio>
+    <audio id="plantSound" src="assets/plantsound.mp3" preload="auto"></audio>
+    <audio id="readySetPlantSound" src="assets/readysetplant.mp3" preload="auto"></audio>
+    <audio id="whoosh1Sound" src="assets/whoosh1.mp3" preload="auto"></audio>
+    <audio id="whoosh2Sound" src="assets/whoosh2.mp3" preload="auto"></audio>
+    <audio id="notEnoughSound" src="assets/notnough.mp3" preload="auto"></audio>
+    <audio id="punchSound" src="assets/punch.mp3" preload="auto"></audio>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+
+
+
+
