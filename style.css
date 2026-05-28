@@ -60,6 +60,9 @@ body {
     box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
     text-align: center;
     color: #fff4d8;
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 .menu-title {
     font-size: 42px;
@@ -98,6 +101,11 @@ body {
 }
 .plant-picker-card {
     width: min(720px, 95vw);
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-direction: column;
 }
 .picker-title {
     font-size: 34px;
@@ -115,6 +123,7 @@ body {
     gap: 12px;
     justify-items: center;
     margin-bottom: 18px;
+    flex-shrink: 0;
 }
 .picker-plant-card {
     width: 85px;
@@ -141,6 +150,10 @@ body {
     align-items: center;
     gap: 14px;
     flex-wrap: wrap;
+    flex-shrink: 0;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 .picker-count {
     font-weight: 700;
@@ -398,11 +411,13 @@ body {
         url("assets/grass.png");
     background-size:
         120px 100%,
-        654px 500px;
+        auto;
     background-position:
         left top,
         120px 0;
-    background-repeat: no-repeat, no-repeat;
+    background-repeat: no-repeat, repeat;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
     border: 6px solid var(--primary-brown);
     border-radius: 20px;
     overflow: visible; /* For explosion visuals in script */
@@ -430,12 +445,17 @@ body {
     .plant-card { width: 72px; height: 92px; }
     .plant-card img { width: 56px; }
     .progress-bar-container { width: 160px; }
+    .plant-picker-grid { grid-template-columns: repeat(2, minmax(72px, 1fr)); gap: 10px; }
 }
 
 @media (max-width: 420px) {
     .menu-title { font-size: 22px; }
+    .menu-card { padding: 16px 14px; }
     .picker-title { font-size: 22px; }
-    .plant-picker-grid { grid-template-columns: repeat(2, minmax(72px, 1fr)); }
+    .picker-subtitle { font-size: 14px; margin-bottom: 12px; }
+    .plant-picker-grid { grid-template-columns: repeat(2, minmax(65px, 1fr)); gap: 8px; margin-bottom: 12px; }
+    .menu-start-btn { min-width: 140px; padding: 10px 16px; font-size: 16px; margin-top: 0; }
+    .picker-count { font-size: 13px; }
 }
 
 /* Rotate overlay + portrait lock */
